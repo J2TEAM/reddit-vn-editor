@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reddit VN Editor by Juno_okyo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.3/toastr.min.css">
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+    body {
+    background-color: #e9ebee;
+    padding-top: 70px;
+    }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Reddit VN Editor</a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="index.html?utm_source=navbar"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home <span class="sr-only">(current)</span></a></li>
+            <li><a href="https://www.facebook.com/groups/redditvietnam/" target="_blank">Reddit Việt Nam</a></li>
+            <li><a href="https://www.facebook.com/groups/j2team.community/" target="_blank">J2TEAM Community</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://junookyo.blogspot.com/?utm_source=reddit_editor" target="_blank">Juno_okyo's Blog</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Follow me <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="https://twitter.com/juno_okyo" itemprop="sameAs" target="_blank"><i aria-hidden="true" class="fa fa-twitter"></i> Twitter</a></li>
+                <li><a href="https://www.facebook.com/junookyo.vn" itemprop="sameAs" target="_blank"><i aria-hidden="true" class="fa fa-facebook-official"></i> Facebook</a></li>
+                <li><a href="https://plus.google.com/108443613096446306111" itemprop="sameAs" rel="author" target="_blank"><i aria-hidden="true" class="fa fa-google-plus-official"></i> Google+</a></li>
+                <li><a href="https://www.youtube.com/channel/UCEETpUrNm5qI-LENbBON2Gw/?sub_confirmation=1" itemprop="sameAs" target="_blank"><i aria-hidden="true" class="fa fa-youtube-play"></i> Youtube</a></li>
+                <li><a href="https://github.com/J2TeaM" itemprop="sameAs" target="_blank"><i aria-hidden="true" class="fa fa-github-alt"></i> GitHub</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container" id="juno_okyo">
+      <div class="row">
+        <div class="col-sm-4 hidden-sm">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> J2TEAM Community</h3>
+            </div>
+            <div class="panel-body" style="padding: 0;">
+              <a href="https://www.facebook.com/groups/j2team.community/" target="_blank" title="J2TEAM Community">
+                <img src="images/j2team-community.png" alt="J2TEAM Community" width="360" height="472" style="width: 100%;">
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-8">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Reddit VN Editor</h3>
+            </div>
+            <div class="panel-body">
+              <form action="#" method="POST" role="form" v-on:submit.prevent="onSubmit">
+                <div class="form-group">
+                  <label for="url">URL</label>
+                  <div class="input-group">
+                    <span class="input-group-addon" id="add-on-link"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></span>
+                    <input type="url" class="form-control" id="url" pattern="https?:\/\/(www\.)?reddit\.com\/r\/.+" v-model="url" placeholder="https://www.reddit.com/r/XXX/..." aria-describedby="add-on-link" autofocus required autocomplete="off">
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" v-on:click="example">Example</button>
+                    </span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="result">Result</label>
+                  <textarea id="result" v-model="result" class="form-control" rows="12" placeholder="Result"></textarea>
+                </div>
+                
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary" v-bind:disabled="loading"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> {{loading ? 'Loading...' : 'Fetch'}}</button>
+                  <button type="reset" class="btn btn-danger"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Reset</button>
+                  <button type="button" class="btn btn-success btn-copy" data-clipboard-target="#result"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span> Copy result</button>
+                  <button type="button" class="btn btn-success" v-on:click="saveToFile"><span class="glyphicon glyphicon-export" aria-hidden="true"></span> Save to file</button>
+                </div>
+              </form>
+            </div>
+            <div class="panel-footer text-center">
+              Developed by <a href="https://junookyo.blogspot.com/?utm_source=reddit_editor" target="_blank">Juno_okyo</a>. Copyright &copy; 2017 <a href="https://junookyo.blogspot.com/2017/02/j2team-la-gi.html?utm_source=reddit_editor" target="_blank">J2TEAM</a>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.2/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.3/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js"></script>
+    <script src="js/juno_okyo.js"></script>
+  </body>
+</html>
