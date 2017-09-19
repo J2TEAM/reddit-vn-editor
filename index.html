@@ -6,14 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Juno_okyo">
     <meta name="copyright" content="J2TEAM">
-
     <meta property="og:type" content="website">
     <meta property="og:title" content="Reddit VN Editor by Juno_okyo">
     <meta property="og:description" content="A tool that saves your time when translating articles on Reddit. Developed by Juno_okyo for the Reddit VN group.">
     <meta property="og:url" content="https://reddit.junookyo.xyz/index.html">
     <meta property="og:site_name" content="Reddit VN Editor">
-    <meta property="og:image" content="http://i.imgur.com/oR9hRHQ.png">
-
+    <meta property="og:image" content="https://i.imgur.com/oR9hRHQ.png">
     <title>Reddit VN Editor by Juno_okyo</title>
     <link href="favicon.ico" rel="icon" type="image/x-icon">
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -98,6 +96,20 @@
                   <label for="result">Result</label>
                   <textarea id="result" v-model="result" class="form-control" rows="12" placeholder="Result"></textarea>
                 </div>
+                <!-- Options -->
+                <div class="form-group">
+                  <label for="comment_separator">Comment Separator</label>
+                  <input type="text" class="form-control" id="comment_separator" v-model="comment_separator" placeholder="--------------------------" required>
+                </div>
+                <div class="form-group">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" v-model="title_upper">
+                      Show post title in UPPERCASE
+                    </label>
+                  </div>
+                </div>
+                
                 
                 <div class="text-center">
                   <button type="submit" class="btn btn-primary" v-bind:disabled="loading"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> {{loading ? 'Loading...' : 'Fetch'}}</button>
